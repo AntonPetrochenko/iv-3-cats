@@ -9,6 +9,7 @@ import { shopLocation } from "../objects/shopLocation";
 import { shops } from "../data/shops";
 import { DropOffLocation } from "../objects/dropOffLocation";
 import { Moon } from "../objects/moon";
+import { globalGameState } from "../globalGameState";
 
 export class Game extends BaseState {
 
@@ -41,6 +42,8 @@ export class Game extends BaseState {
     this.hudContainer.addChild(this.miniMapWrapperContainer)
 
     this.generateMap()
+
+    globalGameState.qm.game = this
   }
 
   addObject(object: BaseObject) {
@@ -68,6 +71,14 @@ export class Game extends BaseState {
     })
 
     return [closestObject, closestObjectDistance]
+  }
+
+  findAll<T extends BaseObject>(cb: (t: BaseObject) => boolean): T[] {
+    const outArr: BaseObject[] = [];
+    this.objects.forEach( o => {
+      if (cb(o)) outArr.push(o)
+    })
+    return outArr as T[] // sorry
   }
 
   update(dt: number) {

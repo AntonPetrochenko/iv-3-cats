@@ -3,7 +3,6 @@ import { BaseObject } from "../world/baseObject";
 const locationS = 'location'
 
 export function isLocation(a: any): a is BaseLocation {
-  console.log(a.objectName, locationS)
   return a.objectName == locationS;
 }
 

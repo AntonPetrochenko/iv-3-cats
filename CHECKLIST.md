@@ -8,7 +8,7 @@ gameplay
 - - inventory +
 - - inventory item addition +
 - map screen (test) +
-- map generator
+- map generator +
 - delivery
 - - quest scheduler
 - - - quest screen

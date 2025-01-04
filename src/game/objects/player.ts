@@ -38,8 +38,6 @@ export class Player extends BaseObject {
       const [hittableMoon, distance] = this.game.findClosestObject<Moon>([this.position.x, this.position.y], (o) => {
         return isMoon(o)
       })
-  
-      console.log(this.invulnerabilitySeconds, )
       if (hittableMoon && distance < 16) {
         this.invulnerabilitySeconds = 3
         const punchAngle = Math.atan2(this.position.y - hittableMoon.position.y, this.position.x - hittableMoon.position.x)
