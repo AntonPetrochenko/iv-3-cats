@@ -3,18 +3,18 @@ import { StateStackManager } from "../stateStackManager";
 import { BaseState } from "../states/baseState"; 
 import { ShopItemDisplayObject } from "../shop/shopItemDisplayObject";
 import { globalGameState } from "../globalGameState";
-import { FONT_FAMILY } from "../constants";
 import { clamp } from "lodash";
 import { lerp } from "../helper/math";
 import { box9Patch } from "../helper/box9Patch";
 import { niceText } from "../helper/niceText";
+import { lateConsts } from "../constants";
 
 export class PauseScreen extends BaseState {
 
   public displayedInventoryItems: ShopItemDisplayObject[] = []
   public displayedQuestItems: ShopItemDisplayObject[] = []
   public cursorIndex = 0;
-  public tabOffset = 0;
+  public tabOffset = 1;
   public currentTabPosition = 0;
   public fadeInTimer = 0;
 
@@ -23,7 +23,7 @@ export class PauseScreen extends BaseState {
     style: {
       fill: '#ffffff',
       fontSize: 8,
-      fontFamily: FONT_FAMILY
+      fontFamily: lateConsts.FONT_FAMILY
     },
     x: 30,
     y: 54-12
@@ -44,9 +44,9 @@ export class PauseScreen extends BaseState {
 
     this.container.addChild(this.moneyLabel)
 
-    this.container.addChild(niceText('<< ЗАКАЗ     [ИНВЕНТАРЬ]   КАРТА >>', 20, 24))
-    this.container.addChild(niceText('<< [ЗАКАЗ]     ИНВЕНТАРЬ   КАРТА >>', 20-320, 24))
-    this.container.addChild(niceText('<< ЗАКАЗ     ИНВЕНТАРЬ   [КАРТА] >>', 20+320, 10))
+    this.container.addChild(niceText('<< ORDER     [INVENTORY]     MAP >>', 20, 24))
+    this.container.addChild(niceText('<< [ORDER]     INVENTORY     MAP >>', 20-320, 24))
+    this.container.addChild(niceText('<< ORDER     INVENTORY     [MAP] >>', 20+320, 10))
 
     this.container.addChild(myBigMap)
     myBigMap.position.set(320+320/2, 180/2)
@@ -60,9 +60,10 @@ export class PauseScreen extends BaseState {
       }
     })
 
+    this.container.addChild(niceText('NEED TO BUY:', -320+30,54-9))
     Object.keys(globalGameState.qm.currentQuestItems).forEach( (itemName, idx) => {
       const itemQuantity = globalGameState.qm.currentQuestItems[itemName]
-      const displayObject = new ShopItemDisplayObject(new Point(-320+30,54+9*idx), `${itemName} x ${itemQuantity}шт`)
+      const displayObject = new ShopItemDisplayObject(new Point(-320+30,54+9*idx), `${itemName} x ${itemQuantity}`)
       this.displayedInventoryItems.push(displayObject)
       this.container.addChild(displayObject.drawableContainer)
     })
@@ -113,7 +114,7 @@ export class PauseScreen extends BaseState {
   }
 
   updateMoneyLabel() {
-    this.moneyLabel.text = `Деньги: ${globalGameState.money}$`
+    this.moneyLabel.text = `MONEY: ${globalGameState.money}$`
   }
 
   update(dt: number): void {

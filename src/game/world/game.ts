@@ -3,18 +3,18 @@ import { BaseObject } from "./baseObject";
 import { BaseState } from "../states/baseState";
 import { StateStackManager } from "../stateStackManager";
 import { Player } from "../objects/player";
-import { DebugObject } from "../objects/debugObject";
 import { dist } from "../helper/math";
 import { shopLocation } from "../objects/shopLocation";
 import { shops } from "../data/shops";
 import { DropOffLocation } from "../objects/dropOffLocation";
 import { Moon } from "../objects/moon";
-import { globalGameState } from "../globalGameState";
+import { globalGameState, resetGlobalGameState } from "../globalGameState";
 import { PauseScreen } from "../pause/pauseScreen";
-import { FONT_FAMILY } from "../constants";
 import { niceText } from "../helper/niceText";
 import { gameMusic, shopMusic } from "../helper/audio";
 import _ from "lodash";
+import { TitleScreen } from "../titleScreen";
+import { lateConsts } from "../constants";
 
 export class Game extends BaseState {
 
@@ -33,7 +33,7 @@ export class Game extends BaseState {
     text: 'THIS IS HUD',
     style: {
       fontSize: 8,
-      fontFamily: FONT_FAMILY,
+      fontFamily: lateConsts.FONT_FAMILY,
       fill: '#ffffff'
     },
     x: 4,
@@ -41,10 +41,10 @@ export class Game extends BaseState {
   })
 
   private helpText = new Text({
-    text: '(A) ПРИЗЕМЛИТЬСЯ, ОТДАТЬ',
+    text: '(Z) INTERACT',
     style: {
       fontSize: 8,
-      fontFamily: FONT_FAMILY,
+      fontFamily: lateConsts.FONT_FAMILY,
       fill: '#ffffff55'
     },
     x: 4,
@@ -52,10 +52,10 @@ export class Game extends BaseState {
   })
 
   private helpText2 = new Text({
-    text: '(SELECT/START) ЗАКАЗ, ИНВЕНТАРЬ, КАРТА',
+    text: '(enter/shift) ORDER INFO',
     style: {
       fontSize: 8,
-      fontFamily: FONT_FAMILY,
+      fontFamily: lateConsts.FONT_FAMILY,
       fill: '#ffffff55'
     },
     x: 4,
@@ -63,9 +63,10 @@ export class Game extends BaseState {
   })
 
   constructor (public container: Container, private mgr: StateStackManager) {
-
-    gameMusic.fade(0,1,1000).play()
     super(container, mgr)
+
+    gameMusic.seek()
+    gameMusic.fade(0,1,1000).play()
 
     this.container.addChild(this.backgroundContainer)
     this.generateBackground();
@@ -105,7 +106,7 @@ export class Game extends BaseState {
 
     const bm = player.bigMapPresentationContainer = new Container()
     bm.addChild(new Graphics().circle(0,0,2).fill('#FFFFFF').circle(0,0,1).fill('#FF0000'))
-    bm.addChild(niceText('Вы',-2*3,-8, 6))
+    bm.addChild(niceText('YOU',-9,-8, 6))
     this.bigMapContainer.addChild(bm)
     
     globalGameState.qm.game = this
@@ -158,19 +159,18 @@ export class Game extends BaseState {
   }
 
   update(dt: number) {
-    if (globalGameState.health < 1) {
-      globalGameState.health = 1
-      const formerHighScore = parseInt(localStorage.getItem('highscore') ?? '0')
-      const formerHighScoreOwner = localStorage.getItem('highscoreOwner') ?? ''
+    if (globalGameState.health < 1 && globalGameState.notDead) {
+      globalGameState.notDead = false
 
-      if (globalGameState.money > formerHighScore) {
-        const winrar = prompt('Вы поставили рекорд! Напишите своё имя...') ?? ''
-        localStorage.setItem('highscore',''+globalGameState.money)
-        localStorage.setItem('highscoreOwner', winrar)
-      } else {
-        alert('Вы не набрали рекордов :(')
-      }
-      window.location.reload()
+      setTimeout(() => {
+        this.stateManager.popState()
+        this.stateManager.popState()
+        resetGlobalGameState()
+        gameMusic.fade(1,0,200).once('fade', () => {gameMusic.stop()})
+          
+        this.stateManager.pushStateEx( (container, stack) => new TitleScreen(container, stack))
+      }, 2000)
+      
     }
     this.objects.forEach( o => {
       if (o.isCameraAnchor) {
@@ -203,7 +203,7 @@ export class Game extends BaseState {
       }
     })
 
-    this.debugText.text = `ЖИЗНИ КОТИКА: ${globalGameState.health}  ДЕНЬГИ: ${globalGameState.money}$ \n`
+    this.debugText.text = `CAT LIVES: ${globalGameState.health}  MONEY: ${globalGameState.money}$ \n`
     
   }
 

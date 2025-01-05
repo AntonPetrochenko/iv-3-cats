@@ -22,4 +22,4 @@
   planet textures (circles) +
   cancel health/money hud 
   cat art (lol) +
-- sound effects (bfxr)
+  sound effects (bfxr)

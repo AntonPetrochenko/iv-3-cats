@@ -1,7 +1,9 @@
-export const assetInfo = [
+import { UnresolvedAsset } from "pixi.js";
+
+export const assetInfo: UnresolvedAsset[] = [
   {
     alias: "font",
-    src: "assets/font/nes-cyrillic.ttf"
+    src: "assets/font/nes-cyrillic.ttf",
   },
   {
     alias: "9slice",

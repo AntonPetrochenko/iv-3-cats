@@ -1,5 +1,5 @@
 import { Text } from "pixi.js";
-import { FONT_FAMILY } from "../constants";
+import { lateConsts } from "../constants";
 
 export function niceText(text: string, x: number, y: number, size = 8) {
   return new Text({
@@ -7,7 +7,7 @@ export function niceText(text: string, x: number, y: number, size = 8) {
       style: {
         fill: '#ffffff',
         fontSize: size,
-        fontFamily: FONT_FAMILY
+        fontFamily: lateConsts.FONT_FAMILY
       },
       x, y
     })

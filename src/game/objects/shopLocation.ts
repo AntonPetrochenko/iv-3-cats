@@ -19,13 +19,17 @@ export class shopLocation extends BaseLocation {
   }
 
   initDrawables(): ContainerChild[] {
-    const title = "МАГАЗИН"
+    const title = "STORE"
     return [
       new Graphics()
         .circle(0,0,18)
         .fill('#FFFFFF')
         .circle(0,0,16)
-        .fill('#0000AA'),
+        .fill('#000099')
+        .circle(0,0,12)
+        .fill('#000044')
+        .circle(0,0,8)
+        .fill('#000022'),
       niceText(this.shop.name,-this.shop.name.length*4, -this.size-14),
       niceText(title,-title.length*3, -this.size-24, 6),
     ]

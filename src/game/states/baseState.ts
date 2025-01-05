@@ -1,4 +1,4 @@
-import { Container } from "pixi.js";
+import { Application, Container } from "pixi.js";
 import { inputManager } from "../helper/inputManager";
 import { PausableEventProxy } from "../helper/pausableEventProxy"
 import { StateStackManager } from "../stateStackManager";

@@ -3,12 +3,12 @@ import { StateStackManager } from "../stateStackManager";
 import { BaseState } from "../states/baseState";
 import { ShopItemDisplayObject } from "./shopItemDisplayObject";
 import { globalGameState } from "../globalGameState";
-import { FONT_FAMILY } from "../constants";
 import { box9Patch } from "../helper/box9Patch";
 import _, { clamp } from "lodash";
 import { StoreInfo } from "../data/shops";
 import { niceText } from "../helper/niceText";
 import { beepSfx, buySfx, gameMusic, shopMusic } from "../helper/audio";
+import { lateConsts } from "../constants";
 
 
 export class ShopMenu extends BaseState {
@@ -39,7 +39,7 @@ export class ShopMenu extends BaseState {
     style: {
       fill: '#ffffff',
       fontSize: 8,
-      fontFamily: FONT_FAMILY
+      fontFamily: lateConsts.FONT_FAMILY
     },
     x: 20,
     y: 29
@@ -135,7 +135,7 @@ export class ShopMenu extends BaseState {
   }
 
   updateMoneyLabel() {
-    this.moneyLabel.text = `ДЕНЬГИ: ${globalGameState.money}$`
+    this.moneyLabel.text = `MONEY: ${globalGameState.money}$`
   }
 
   update(dt: number): void {

@@ -8,6 +8,7 @@ import { BaseLocation, isLocation } from "./baseLocation";
 import { isMoon, Moon } from "./moon";
 import { globalGameState } from "../globalGameState";
 import { collideSfx } from "../helper/audio";
+import { Explosion } from "./explosion";
 
 const PlayerString = 'player';
 
@@ -23,7 +24,19 @@ export class Player extends BaseObject {
 
   public objectName: string = PlayerString;
 
+  public notDead = true
+
   update(dt: number): void {
+
+    if (!this.notDead) {
+      this.velocity.set(0,0)
+      return 
+    }
+
+    if (globalGameState.health < 1 && this.notDead) {
+      this.notDead = false
+      this.game.addObject(new Explosion(this.position))
+    }
 
     this.invulnerabilitySeconds -= dt*1/60
     const stick = mul2(inputManager.getLeftStick(),2) 
@@ -67,8 +80,6 @@ export class Player extends BaseObject {
 
   constructor(position: Point, localInputs: PausableEventProxy, private game: Game) {
     super(position)
-
-
     
 
     localInputs.on('button-pressed-b', () => {

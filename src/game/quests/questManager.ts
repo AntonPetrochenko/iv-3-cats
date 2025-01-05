@@ -52,6 +52,7 @@ export class QuestManager {
       if (!success) {
         orderGood = false
         globalGameState.health -= 1
+        globalGameState.money = Math.max(0,globalGameState.money-100)
       }
     })
     if (orderGood) {

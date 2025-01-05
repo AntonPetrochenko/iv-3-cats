@@ -7,36 +7,42 @@ export interface StoreInfo {
 }
 
 const groceryStore: StoreInfo = {
-  name: 'Продукты',
+  name: 'Grocery',
   sysname: 'grocery',
   items: [
     {
-      name: 'КОНСЕРВЫ',
+      name: 'CANNED CAT FOOD',
       price: 500,
       quantity: 1,
       use: () => {},
       
     },
     {
-      name: 'СУХОЙ КОРМ',
+      name: 'KIBBLE',
       price: 250,
       quantity: 1,
       use: () => {},
     },
     {
-      name: 'ЛЁН',
+      name: 'FLAX',
       price: 100,
       quantity: 1,
       use: () => {},
     },
     {
-      name: 'ЙОГУРТ',
+      name: 'YOGURT',
       price: 500,
       quantity: 1,
       use: () => {},
     },
     {
-      name: 'ЯЙЦО',
+      name: 'HARBOIL EGG',
+      price: 40,
+      quantity: 1,
+      use: () => {},
+    },
+    {
+      name: 'CEMENT (edible)',
       price: 40,
       quantity: 1,
       use: () => {},
@@ -45,36 +51,42 @@ const groceryStore: StoreInfo = {
 }
 
 const hardwareStore: StoreInfo = {
-  name: 'ВСЁ ДЛЯ ДОМА',
+  name: 'HARDWARE',
   sysname: 'hardware',
   items: [
     {
-      name: 'КОГТЕТОЧКА',
+      name: 'SCRATCH POLE',
       price: 1000,
       quantity: 1,
       use: () => {},
     },
     {
-      name: 'ЛЕЖАНКА',
+      name: 'PILLOW',
       price: 1500,
       quantity: 1,
       use: () => {},
     },
     {
-      name: 'АВТОКОРМУШКА',
+      name: 'AUTO FEEDER',
       price: 2500,
       quantity: 1,
       use: () => {},
     },
     {
-      name: 'МИСКА',
+      name: 'BOWL',
       price: 500,
       quantity: 1,
       use: () => {},
     },
     {
-      name: 'ФОНТАНЧИК',
+      name: 'WATER FOUNTAIN',
       price: 1500,
+      quantity: 1,
+      use: () => {},
+    },
+    {
+      name: 'CEMENT (inedible)',
+      price: 40,
       quantity: 1,
       use: () => {},
     },
@@ -82,30 +94,30 @@ const hardwareStore: StoreInfo = {
 }
 
 const drugStore: StoreInfo = {
-  name: 'Аптека',
-  sysname: 'hardware',
+  name: 'HERB',
+  sysname: 'drug',
   items: [
     {
-      name: 'ВАЛЕРЬЯНА',
+      name: 'CATNIP',
       price: 100,
       quantity: 1,
       use: () => {},
       
     },
     {
-      name: 'ВАЛЕРЬЯНА',
+      name: 'VALERIAN EXTR.',
       price: 100,
       quantity: 1,
       use: () => {},
     },
     {
-      name: 'ВАЛЕРЬЯНА',
+      name: 'Nepetalactone',
       price: 100,
       quantity: 1,
       use: () => {},
     },
     {
-      name: 'ВАЛЕРЬЯНА',
+      name: 'WATER',
       price: 100,
       quantity: 1,
       use: () => {},

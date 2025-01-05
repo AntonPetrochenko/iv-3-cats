@@ -7,17 +7,13 @@ import { niceText } from "./helper/niceText";
 
 export class TitleScreen extends BaseState {
 
-  highScore: number
-  highScoreOwner: string
-
   textContainer: Container = new Container()
   constructor(container: Container, stateStack: StateStackManager) {
 
     
     super(container, stateStack)
-    this.highScore = parseInt(localStorage.getItem('highscore') ?? '0')
-    this.highScoreOwner = localStorage.getItem('highscoreOwner') ?? ''
-    titleMusic.play()
+    titleMusic.seek(0)
+    titleMusic.fade(0,1,200).play()
 
     this.localInputs.on('button-pressed-start', () => {
       buySfx.play()
@@ -28,17 +24,17 @@ export class TitleScreen extends BaseState {
 
     this.textContainer.addChild(niceText('WUNKUS\nDELIVERY\nCOMPANY', 16, 8, 12))
 
-    this.textContainer.addChild(niceText('2025 (C) cardboard box', 16, 180-16,))
-    this.textContainer.addChild(niceText(`Рекорд: ${this.highScore} (${this.highScoreOwner})`,100,9), )
+    this.textContainer.addChild(niceText('2025 (C) team cardboard box', 16, 180-16,))
+    this.textContainer.addChild(niceText(`  / minijam 175`,100,9), )
 
-    this.textContainer.addChild(niceText('РаботаЙ котиком-курьером в космосе!!!',16,64))
-    this.textContainer.addChild(niceText('Покупай продукты в магазинах',16,64+16))
-    this.textContainer.addChild(niceText('отвози их на планеты получателей!',16,64+24))
+    this.textContainer.addChild(niceText('Wunkiest delivery company ever!!1',16,64))
+    this.textContainer.addChild(niceText('Buy ordered products in stores',16,64+16))
+    this.textContainer.addChild(niceText('haul them to various planets!',16,64+24))
 
-    this.textContainer.addChild(niceText('Не забудь привезти весь заказ,',16,64+24+16))
-    this.textContainer.addChild(niceText('а то заказчик разозлится...',16,64+24+24))
+    this.textContainer.addChild(niceText('Be sure to bring ALL the ordered',16,64+24+16))
+    this.textContainer.addChild(niceText(`items, or the customer's gonna GET U`,16,64+24+24))
 
-    this.textContainer.addChild(niceText('Жми (СТАРТ)',16,64+24+24+24))
+    this.textContainer.addChild(niceText('Press (ENTER)',16,64+24+24+24))
 
     this.container.addChild(this.textContainer)
   }

@@ -18,7 +18,7 @@ export class DropOffLocation extends BaseLocation {
   timer = 0
 
 
-  hereText = niceText('СЮДА',-16,0)
+  hereText = niceText('HERE',-16,0)
 
   public use(): void {
     if (globalGameState.qm.currentQuestPlanet == this) {

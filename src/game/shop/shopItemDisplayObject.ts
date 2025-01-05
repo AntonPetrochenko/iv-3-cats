@@ -1,7 +1,7 @@
 import { ContainerChild, Graphics, Point, Text } from "pixi.js";
 import { BaseObject } from "../world/baseObject";
-import { FONT_FAMILY } from "../constants";
 import { clamp } from "lodash";
+import { lateConsts } from "../constants";
 
 export class ShopItemDisplayObject extends BaseObject {
   public objectName: string = 'shopItemDisplay';
@@ -21,7 +21,7 @@ export class ShopItemDisplayObject extends BaseObject {
       style: {
         fontSize: 8,
         fill: '#ffffff',
-        fontFamily: FONT_FAMILY
+        fontFamily: lateConsts.FONT_FAMILY
       }
     })
     this.textHighlighted = new Text({
@@ -29,7 +29,7 @@ export class ShopItemDisplayObject extends BaseObject {
       style: {
         fontSize: 8,
         fill: '#4e187c ',
-        fontFamily: FONT_FAMILY
+        fontFamily: lateConsts.FONT_FAMILY
       }
     })
 

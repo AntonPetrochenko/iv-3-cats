@@ -1,5 +1,6 @@
 import { Application, Container } from "pixi.js";
 import { BaseState } from "./states/baseState";
+import { globalGameState, resetGlobalGameState } from "./globalGameState";
 
 export class StateStackManager {
 
@@ -34,7 +35,10 @@ export class StateStackManager {
       removedState.destructor()
       removedState.localInputs.kill()
       this.app.stage.removeChild(removedState.container)
-      this.stateStack[this.stateStack.length-1].isActive = true
+      const prevState = this.stateStack[this.stateStack.length-1]
+      if (prevState) {
+        prevState.isActive = true
+      }
     } else {
       console.log('Refusing to pop')
     }
