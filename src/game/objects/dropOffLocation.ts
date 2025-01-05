@@ -5,6 +5,7 @@ import { expandN } from 'regex-to-strings'
 import { globalGameState } from "../globalGameState";
 import _ from "lodash";
 import { mkSimplexNoise } from "@spissvinkel/simplex-noise";
+import { niceText } from "../helper/niceText";
 
 export class DropOffLocation extends BaseLocation {
 
@@ -15,6 +16,9 @@ export class DropOffLocation extends BaseLocation {
   subCircle?: ContainerChild
 
   timer = 0
+
+
+  hereText = niceText('СЮДА',-16,0)
 
   public use(): void {
     if (globalGameState.qm.currentQuestPlanet == this) {
@@ -35,6 +39,7 @@ export class DropOffLocation extends BaseLocation {
     
     if (globalGameState.qm.currentQuestPlanet == this) {
       this.drawableContainer.tint ='#FFFF00'
+      this.hereText.visible = true
       if (this.miniMapPresentationContainer)
         this.miniMapPresentationContainer.scale = 2
       if (this.bigMapPresentationContainer)
@@ -44,6 +49,7 @@ export class DropOffLocation extends BaseLocation {
       }
     } else {
       this.drawableContainer.tint = '#ffffff'
+      this.hereText.visible = false
       if (this.miniMapPresentationContainer)
         this.miniMapPresentationContainer.scale = 1
       if (this.bigMapPresentationContainer)
@@ -120,15 +126,7 @@ export class DropOffLocation extends BaseLocation {
         .circle(0,0,this.size+2)
         .fill('#FFFFFF'),
       fancyTextureContainer,
-      new Text({
-        text: this.planetName,
-        style: {
-          fontSize: 8,
-          fill: '#FFFFFF'
-        },
-        x: 10,
-        y: 10
-      })
+      this.hereText
     ]
   }
 }

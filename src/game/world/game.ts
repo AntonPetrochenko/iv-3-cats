@@ -14,6 +14,7 @@ import { PauseScreen } from "../pause/pauseScreen";
 import { FONT_FAMILY } from "../constants";
 import { niceText } from "../helper/niceText";
 import { gameMusic, shopMusic } from "../helper/audio";
+import _ from "lodash";
 
 export class Game extends BaseState {
 
@@ -26,6 +27,7 @@ export class Game extends BaseState {
   private bigMapWrapperContainer = new Container();
   public bigMapContainer = new Container();
   private mapContainer = new Container();
+  private backgroundContainer = new Container();
 
   private debugText = new Text({
     text: 'THIS IS HUD',
@@ -33,19 +35,47 @@ export class Game extends BaseState {
       fontSize: 8,
       fontFamily: FONT_FAMILY,
       fill: '#ffffff'
-    }
+    },
+    x: 4,
+    y: 4
+  })
+
+  private helpText = new Text({
+    text: '(A) ПРИЗЕМЛИТЬСЯ, ОТДАТЬ',
+    style: {
+      fontSize: 8,
+      fontFamily: FONT_FAMILY,
+      fill: '#ffffff55'
+    },
+    x: 4,
+    y: 180-12-9
+  })
+
+  private helpText2 = new Text({
+    text: '(SELECT/START) ЗАКАЗ, ИНВЕНТАРЬ, КАРТА',
+    style: {
+      fontSize: 8,
+      fontFamily: FONT_FAMILY,
+      fill: '#ffffff55'
+    },
+    x: 4,
+    y: 180-12
   })
 
   constructor (public container: Container, private mgr: StateStackManager) {
 
     gameMusic.fade(0,1,1000).play()
     super(container, mgr)
-    
+
+    this.container.addChild(this.backgroundContainer)
+    this.generateBackground();
     this.container.addChild(this.gameplayContainer)
     this.container.addChild(this.hudContainer)
     this.container.addChild(this.mapContainer)
 
     this.hudContainer.addChild(this.debugText)
+    this.hudContainer.addChild(this.helpText)
+    this.hudContainer.addChild(this.helpText2)
 
     const mmMask = new Graphics().circle(0,0,32).fill('#FFFFFF')
     this.miniMapWrapperContainer.addChild(mmMask)
@@ -83,7 +113,13 @@ export class Game extends BaseState {
 
     this.localInputs.on('button-pressed-select', () => {
       mgr.pushStateEx((container, stateStack) => new PauseScreen(container, stateStack, this.bigMapWrapperContainer))
+    })
+    this.localInputs.on('button-pressed-start', () => {
+      mgr.pushStateEx((container, stateStack) => new PauseScreen(container, stateStack, this.bigMapWrapperContainer))
     }) 
+
+    
+    
   }
 
   addObject(object: BaseObject) {
@@ -122,6 +158,20 @@ export class Game extends BaseState {
   }
 
   update(dt: number) {
+    if (globalGameState.health < 1) {
+      globalGameState.health = 1
+      const formerHighScore = parseInt(localStorage.getItem('highscore') ?? '0')
+      const formerHighScoreOwner = localStorage.getItem('highscoreOwner') ?? ''
+
+      if (globalGameState.money > formerHighScore) {
+        const winrar = prompt('Вы поставили рекорд! Напишите своё имя...') ?? ''
+        localStorage.setItem('highscore',''+globalGameState.money)
+        localStorage.setItem('highscoreOwner', winrar)
+      } else {
+        alert('Вы не набрали рекордов :(')
+      }
+      window.location.reload()
+    }
     this.objects.forEach( o => {
       if (o.isCameraAnchor) {
         this.gameplayContainer.position.set(
@@ -132,6 +182,11 @@ export class Game extends BaseState {
         this.miniMapContainer.position.set(
           -o.position.x/8,
           -o.position.y/8
+        )
+
+        this.backgroundContainer.position.set(
+          -o.position.x/4,
+          -o.position.y/4
         )
 
         // this.bigMapContainer.position.set(
@@ -148,7 +203,7 @@ export class Game extends BaseState {
       }
     })
 
-    this.debugText.text = `ЖИЗНИ КОТИКА: ${globalGameState.health}  ДЕНЕГ ${globalGameState.money} \n`
+    this.debugText.text = `ЖИЗНИ КОТИКА: ${globalGameState.health}  ДЕНЬГИ: ${globalGameState.money}$ \n`
     
   }
 
@@ -172,7 +227,6 @@ export class Game extends BaseState {
     function generatePointOnMap() {
       return [Math.random()*1500-(1500/2),Math.random()*1000-500]
     }
-
     
 
     for (let i=0; i<19; i++) {
@@ -215,6 +269,18 @@ export class Game extends BaseState {
       bm.addChild(niceText(shopData.name, -shopData.name.length*3,-8, 6))
       this.bigMapContainer.addChild(bm)
     })
+  }
+
+  generateBackground() {
+    function generatePointOnMap() {
+      return [Math.random()*1500-(1500/2),Math.random()*1000-500]
+    }
+
+    for (let i=0; i<1000; i++) {
+      const c = _.sample(['#fcef8d', '#8465ec', '#d9bdc8', '#ea6262']) as string
+      const p = generatePointOnMap()
+      this.backgroundContainer.addChild(new Graphics({x: p[0], y: p[1]}).circle(0,0,Math.random()*2).fill(c) )
+    }
   }
 
 }

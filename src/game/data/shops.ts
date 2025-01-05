@@ -11,40 +11,73 @@ const groceryStore: StoreInfo = {
   sysname: 'grocery',
   items: [
     {
-      name: 'ПРОДУКТОВЫЙ ТУТ',
-      price: 1,
+      name: 'КОНСЕРВЫ',
+      price: 500,
       quantity: 1,
       use: () => {},
-      description: 'TEST'
+      
     },
     {
-      name: 'ПРОДУКТОВЫЙ ТУТ 2',
-      price: 1,
+      name: 'СУХОЙ КОРМ',
+      price: 250,
       quantity: 1,
       use: () => {},
-      description: 'TEST'
-    }
+    },
+    {
+      name: 'ЛЁН',
+      price: 100,
+      quantity: 1,
+      use: () => {},
+    },
+    {
+      name: 'ЙОГУРТ',
+      price: 500,
+      quantity: 1,
+      use: () => {},
+    },
+    {
+      name: 'ЯЙЦО',
+      price: 40,
+      quantity: 1,
+      use: () => {},
+    },
   ]
 }
 
 const hardwareStore: StoreInfo = {
-  name: 'Хозяйственный',
+  name: 'ВСЁ ДЛЯ ДОМА',
   sysname: 'hardware',
   items: [
     {
-      name: 'ХОЗМАГ ТУТ',
-      price: 1,
+      name: 'КОГТЕТОЧКА',
+      price: 1000,
       quantity: 1,
       use: () => {},
-      description: 'TEST'
     },
     {
-      name: 'ХОЗМАГ ТУТ 2',
-      price: 1,
+      name: 'ЛЕЖАНКА',
+      price: 1500,
       quantity: 1,
       use: () => {},
-      description: 'TEST'
-    }
+    },
+    {
+      name: 'АВТОКОРМУШКА',
+      price: 2500,
+      quantity: 1,
+      use: () => {},
+    },
+    {
+      name: 'МИСКА',
+      price: 500,
+      quantity: 1,
+      use: () => {},
+    },
+    {
+      name: 'ФОНТАНЧИК',
+      price: 1500,
+      quantity: 1,
+      use: () => {},
+    },
   ]
 }
 
@@ -53,23 +86,35 @@ const drugStore: StoreInfo = {
   sysname: 'hardware',
   items: [
     {
-      name: 'АПТЕКА',
-      price: 1,
+      name: 'ВАЛЕРЬЯНА',
+      price: 100,
       quantity: 1,
       use: () => {},
-      description: 'TEST'
+      
     },
     {
-      name: 'АПТЕКА 2',
-      price: 1,
+      name: 'ВАЛЕРЬЯНА',
+      price: 100,
       quantity: 1,
       use: () => {},
-      description: 'TEST'
+    },
+    {
+      name: 'ВАЛЕРЬЯНА',
+      price: 100,
+      quantity: 1,
+      use: () => {},
+    },
+    {
+      name: 'ВАЛЕРЬЯНА',
+      price: 100,
+      quantity: 1,
+      use: () => {},
     }
   ]
 }
 
 export const shops: StoreInfo[] = [
+  groceryStore,
   groceryStore,
   hardwareStore,
   drugStore

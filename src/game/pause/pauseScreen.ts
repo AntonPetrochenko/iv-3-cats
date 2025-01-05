@@ -44,9 +44,9 @@ export class PauseScreen extends BaseState {
 
     this.container.addChild(this.moneyLabel)
 
-    this.container.addChild(niceText('<< ПОКУПКИ   [ИНВЕНТАРЬ]   КАРТА >>', 20, 24))
-    this.container.addChild(niceText('<< [ПОКУПКИ]   ИНВЕНТАРЬ   КАРТА >>', 20-320, 24))
-    this.container.addChild(niceText('<< ПОКУПКИ   ИНВЕНТАРЬ   [КАРТА] >>', 20+320, 10))
+    this.container.addChild(niceText('<< ЗАКАЗ     [ИНВЕНТАРЬ]   КАРТА >>', 20, 24))
+    this.container.addChild(niceText('<< [ЗАКАЗ]     ИНВЕНТАРЬ   КАРТА >>', 20-320, 24))
+    this.container.addChild(niceText('<< ЗАКАЗ     ИНВЕНТАРЬ   [КАРТА] >>', 20+320, 10))
 
     this.container.addChild(myBigMap)
     myBigMap.position.set(320+320/2, 180/2)
@@ -56,7 +56,7 @@ export class PauseScreen extends BaseState {
       this.displayedInventoryItems.push(displayObject)
       this.container.addChild(displayObject.drawableContainer)
       if (idx == 0) {
-        displayObject.activate()
+        // displayObject.activate()
       }
     })
 
@@ -78,7 +78,7 @@ export class PauseScreen extends BaseState {
         this.cursorIndex = 0
       }
       
-      this.displayedInventoryItems[this.cursorIndex]?.activate()
+      // this.displayedInventoryItems[this.cursorIndex]?.activate()
       console.log(this.cursorIndex)
     })
 
@@ -93,6 +93,10 @@ export class PauseScreen extends BaseState {
     })
 
     this.localInputs.on('button-pressed-select', () => {
+      this.stateStack.popState()
+    })
+
+    this.localInputs.on('button-pressed-start', () => {
       this.stateStack.popState()
     })
 

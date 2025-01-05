@@ -3,6 +3,7 @@ import { Application, Assets, TextureStyle } from "pixi.js";
 import { Game } from "./world/game";
 import { StateStackManager } from './stateStackManager';
 import { assetInfo } from './data/assetInfo';
+import { TitleScreen } from './titleScreen';
 
 TextureStyle.defaultOptions.scaleMode = 'nearest';
 
@@ -19,7 +20,7 @@ export async function initGame() {
 
   const stateStack = new StateStackManager(app)
 
-  stateStack.pushStateEx( (container, stack) => new Game (container, stack))
+  stateStack.pushStateEx( (container, stack) => new TitleScreen (container, stack))
 
   // inputManager.evt.on('button-pressed-select', () => stateStack.popState())
 

@@ -1,11 +1,13 @@
-import { ContainerChild, Graphics, Point } from "pixi.js";
+import { Assets, ContainerChild, Graphics, Point, Sprite } from "pixi.js";
 import { inputManager } from "../helper/inputManager";
 import { BaseObject } from "../world/baseObject";
 import { PausableEventProxy } from "../helper/pausableEventProxy";
-import { lerp2, mul2 } from "../helper/math";
+import { lerp2, mod, mul2 } from "../helper/math";
 import { Game } from "../world/game";
 import { BaseLocation, isLocation } from "./baseLocation";
 import { isMoon, Moon } from "./moon";
+import { globalGameState } from "../globalGameState";
+import { collideSfx } from "../helper/audio";
 
 const PlayerString = 'player';
 
@@ -40,6 +42,8 @@ export class Player extends BaseObject {
       })
       if (hittableMoon && distance < hittableMoon.size) {
         this.invulnerabilitySeconds = 3
+        globalGameState.health -= 1
+        collideSfx.play()
         const punchAngle = Math.atan2(this.position.y - hittableMoon.position.y, this.position.x - hittableMoon.position.x)
         
         this.velocity.set(
@@ -56,10 +60,16 @@ export class Player extends BaseObject {
         this.drawableContainer.visible = true
       }
     }
+
+    this.position.x = (mod(this.position.x+950,1900))-950
+    this.position.y = (mod(this.position.y+700,1400))-700
   }
 
   constructor(position: Point, localInputs: PausableEventProxy, private game: Game) {
     super(position)
+
+
+    
 
     localInputs.on('button-pressed-b', () => {
       const [location, distance] = game.findClosestObject<BaseLocation>([this.position.x, this.position.y], (o) => isLocation(o) && o.locationType == 'shop')
@@ -82,11 +92,16 @@ export class Player extends BaseObject {
 
   initDrawables(): ContainerChild[] {
     return [
-      new Graphics()
-        .lineTo(5,2.5)
-        .lineTo(5,-2.5)
-        .lineTo(0,0)
-        .fill('#ffffff'),
+      // new Graphics()
+      //   .lineTo(5,2.5)
+      //   .lineTo(5,-2.5)
+      //   .lineTo(0,0)
+      //   .fill('#ffffff'),
+      new Sprite({
+        texture: Assets.get('wunk'),
+        x: -8,
+        y: -8
+      })
     ]
   }
   

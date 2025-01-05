@@ -15,11 +15,11 @@
   inventory screen +
   planet sizes +
   add music +
-- background (stars)
-- iterate on shop screen
+  background (stars) +
+  iterate on shop screen +
 - inventory item usage
   minimap + 
   planet textures (circles) +
-- health/money hud 
-- cat art (maybe?)
+  cancel health/money hud 
+  cat art (lol) +
 - sound effects (bfxr)

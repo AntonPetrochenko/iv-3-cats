@@ -1,14 +1,14 @@
-import { Container, Graphics, Point, Text } from "pixi.js";
+import { Assets, Container, Graphics, Point, Sprite, Text } from "pixi.js";
 import { StateStackManager } from "../stateStackManager";
 import { BaseState } from "../states/baseState";
 import { ShopItemDisplayObject } from "./shopItemDisplayObject";
 import { globalGameState } from "../globalGameState";
 import { FONT_FAMILY } from "../constants";
 import { box9Patch } from "../helper/box9Patch";
-import { clamp } from "lodash";
+import _, { clamp } from "lodash";
 import { StoreInfo } from "../data/shops";
 import { niceText } from "../helper/niceText";
-import { gameMusic, shopMusic } from "../helper/audio";
+import { beepSfx, buySfx, gameMusic, shopMusic } from "../helper/audio";
 
 
 export class ShopMenu extends BaseState {
@@ -17,6 +17,7 @@ export class ShopMenu extends BaseState {
   public cursorIndex = 0;
 
   private fadeInTimer = 0;
+  private staticTimer = 0;
 
   private typerBuffer = '';
   private typerSource = 'Добро пожаловать!';
@@ -44,15 +45,37 @@ export class ShopMenu extends BaseState {
     y: 29
   })
 
+  private shopKeeper = new Sprite({
+    texture: Assets.get(_.sample([
+      'wunk1',
+      'wunk2',
+      'wunk3',
+      'wunk4',
+      'wunk5',
+      'wunk6',
+      'wunk7',
+    ])),
+    x: 216,
+    y: 14
+  })
+
+  private static = new Sprite({
+    texture: Assets.get('static'),
+    x: 216,
+    y: 14
+  })
+
   constructor(container: Container, private stateStack: StateStackManager, private shop: StoreInfo) {
     super(container, stateStack)
 
     this.container.alpha = 0;
 
     this.container.addChild(new Graphics().rect(-1000,-1000,2000,2000).fill('#00000066'))
-    this.container.addChild(box9Patch(10,5, 200, 120))
-    this.container.addChild(box9Patch(210,5, 100, 140-20))
-    this.container.addChild(box9Patch(10,123, 300, 50))
+    this.container.addChild(box9Patch(10,5, 200, 170))
+    this.container.addChild(box9Patch(210,5, 100, 170))
+
+    this.container.addChild(this.shopKeeper)
+    this.container.addChild(this.static)
 
     this.updateMoneyLabel()
     this.container.addChild(this.moneyLabel)
@@ -76,6 +99,8 @@ export class ShopMenu extends BaseState {
       if (this.cursorIndex >= shop.items.length) {
         this.cursorIndex = 0
       }
+
+      beepSfx.play()
       
       this.displayedShopItems[this.cursorIndex]?.activate()
       console.log(this.cursorIndex)
@@ -86,15 +111,16 @@ export class ShopMenu extends BaseState {
     })
 
     this.localInputs.on('button-pressed-a', () => {
-      this.updateMoneyLabel()
       const shopItem = this.shop.items[this.cursorIndex]
       if (globalGameState.money >= shopItem.price) {
         globalGameState.money -= shopItem.price
         globalGameState.inventory.insertItem(shopItem)
         console.log(globalGameState.inventory)
+        buySfx.play()
       } else {
         console.log('Деньги кончелися')
       }
+      this.updateMoneyLabel()
     })
 
     gameMusic.fade(1,0,200).once('fade', () => {shopMusic.fade(0,1,0.5).play()})
@@ -114,9 +140,25 @@ export class ShopMenu extends BaseState {
 
   update(dt: number): void {
 
+    this.staticTimer += 1/60*dt
     this.fadeInTimer += (1/60*dt)*3
     this.fadeInTimer = clamp(this.fadeInTimer,0,1)
     this.container.alpha = this.fadeInTimer
+
+
+    if (Math.random() < 0.5) {
+      this.static.scale.set(1,1)
+      this.static.position.set(216,14)
+    }
+    else {
+      this.static.scale.set(-1,1)
+      this.static.position.set(216+88,14)
+    }   
+
+    if (this.staticTimer > 1) {
+      this.shopKeeper.visible = true
+      this.static.alpha = Math.max(2 - this.staticTimer, 0)
+    }
 
     this.displayedShopItems.forEach( o => o.update(dt) )
   }

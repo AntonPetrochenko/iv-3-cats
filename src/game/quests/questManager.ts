@@ -5,6 +5,7 @@ import { Game } from "../world/game";
 import { shops } from "../data/shops";
 import { DropOffLocation } from "../objects/dropOffLocation";
 import { isLocation } from "../objects/baseLocation";
+import { goodOrderSfx, wrongOrderSfx } from "../helper/audio";
 
 export class QuestManager {
 
@@ -44,13 +45,20 @@ export class QuestManager {
 
   completeQuest() {
     if (!this.game) return
+    let orderGood = true
     Object.keys(this.currentQuestItems).forEach( itemName => {
       const itemQuantity = this.currentQuestItems[itemName]
       const success = globalGameState.inventory.tryTakeItems(itemName, itemQuantity)
       if (!success) {
+        orderGood = false
         globalGameState.health -= 1
       }
     })
+    if (orderGood) {
+      goodOrderSfx.play()
+    } else {
+      wrongOrderSfx.play()
+    }
     this.newQuest()
   }
 }
