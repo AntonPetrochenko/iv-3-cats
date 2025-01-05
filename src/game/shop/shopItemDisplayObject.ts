@@ -1,5 +1,7 @@
 import { ContainerChild, Graphics, Point, Text } from "pixi.js";
 import { BaseObject } from "../world/baseObject";
+import { FONT_FAMILY } from "../constants";
+import { clamp } from "lodash";
 
 export class ShopItemDisplayObject extends BaseObject {
   public objectName: string = 'shopItemDisplay';
@@ -8,6 +10,9 @@ export class ShopItemDisplayObject extends BaseObject {
   private textHighlighted: Text;
   private highlight: Graphics
 
+  private switchTimer = 0;
+  private switchDirection = -1;
+
   constructor(position: Point, private labelText: string) {
     super(position)
 
@@ -15,19 +20,21 @@ export class ShopItemDisplayObject extends BaseObject {
       text: this.labelText,
       style: {
         fontSize: 8,
-        fill: '#ffffff'
+        fill: '#ffffff',
+        fontFamily: FONT_FAMILY
       }
     })
     this.textHighlighted = new Text({
       text: this.labelText,
       style: {
         fontSize: 8,
-        fill: '#000000'
+        fill: '#4e187c ',
+        fontFamily: FONT_FAMILY
       }
     })
 
     this.highlight = new Graphics()
-      .rect(0,0,this.labelText.length*8,8)
+      .rect(-1,-1,this.labelText.length*8+1,8+1)
       .fill('#ffffff')
 
     this.beginDrawing()
@@ -35,7 +42,10 @@ export class ShopItemDisplayObject extends BaseObject {
   }
 
   update(dt: number): void {
-    /** */
+    this.switchTimer += (1/60*dt)*this.switchDirection*5
+    this.switchTimer = clamp(this.switchTimer, 0, 1)
+    
+    this.highlight.scale.set(this.switchTimer,1)
   }
 
   changeText(t: string) {
@@ -44,15 +54,15 @@ export class ShopItemDisplayObject extends BaseObject {
   }
 
   activate() {
-    this.highlight.visible = true
     this.textHighlighted.visible = true
     this.textNormal.visible = false
+    this.switchDirection = 1
   }
 
   deactivate() {
-    this.highlight.visible = false
     this.textHighlighted.visible = false
     this.textNormal.visible = true
+    this.switchDirection = -1
   }
 
   initDrawables(): ContainerChild[] {

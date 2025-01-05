@@ -14,7 +14,15 @@ const groceryStore: StoreInfo = {
       name: 'ПРОДУКТОВЫЙ ТУТ',
       price: 1,
       quantity: 1,
-      use: () => {}
+      use: () => {},
+      description: 'TEST'
+    },
+    {
+      name: 'ПРОДУКТОВЫЙ ТУТ 2',
+      price: 1,
+      quantity: 1,
+      use: () => {},
+      description: 'TEST'
     }
   ]
 }
@@ -27,7 +35,15 @@ const hardwareStore: StoreInfo = {
       name: 'ХОЗМАГ ТУТ',
       price: 1,
       quantity: 1,
-      use: () => {}
+      use: () => {},
+      description: 'TEST'
+    },
+    {
+      name: 'ХОЗМАГ ТУТ 2',
+      price: 1,
+      quantity: 1,
+      use: () => {},
+      description: 'TEST'
     }
   ]
 }
@@ -40,7 +56,15 @@ const drugStore: StoreInfo = {
       name: 'АПТЕКА',
       price: 1,
       quantity: 1,
-      use: () => {}
+      use: () => {},
+      description: 'TEST'
+    },
+    {
+      name: 'АПТЕКА 2',
+      price: 1,
+      quantity: 1,
+      use: () => {},
+      description: 'TEST'
     }
   ]
 }

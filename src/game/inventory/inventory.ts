@@ -2,6 +2,27 @@ import { IInventoryItem } from "./inventoryItem";
 
 export class Inventory {
   items: IInventoryItem[] = []
+
+  constructor() {
+    this.insertItem({
+      name: 'DEBUG 1',
+      price: 1,
+      quantity: 10,
+      use: () => {}
+    })
+    this.insertItem({
+      name: 'DEBUG DEBUG DEBUG 2',
+      price: 1,
+      quantity: 10,
+      use: () => {}
+    })
+    this.insertItem({
+      name: 'DEBUG DEBUG 3',
+      price: 1,
+      quantity: 10,
+      use: () => {}
+    })
+  }
   
   public insertItem(newItem: IInventoryItem): void {
     for (const ownedItem of this.items) {

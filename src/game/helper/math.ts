@@ -69,3 +69,23 @@ export const dist = (
 export const mod = (n: number, mod: number) => {
   return ((n % mod) + mod) % mod;
 };
+
+export const clamp = (number: number, min: number, max: number) => {
+  return Math.max(min, Math.min(number, max));
+}
+
+export function hexToRgb(hex: string): number[] {
+  // Убираем символ '#' в начале строки, если он есть
+  const hexValue = hex.startsWith('#') ? hex.slice(1) : hex;
+  
+  if (hexValue.length !== 6) {
+      throw new Error('Некорректная длина HEX строки');
+  }
+
+  // Преобразуем каждую пару символов в десятичное число
+  const r = parseInt(hexValue.substring(0, 2), 16);
+  const g = parseInt(hexValue.substring(2, 4), 16);
+  const b = parseInt(hexValue.substring(4, 6), 16);
+
+  return [r, g, b];
+}

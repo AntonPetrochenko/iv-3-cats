@@ -1,0 +1,25 @@
+  motion +
+  shop locations +
+  shop screen +
+    money +
+    inventory +
+    inventory item addition +
+  map screen (test) +
+  map generator +
+  delivery + 
+   quest scheduler + 
+     quest screen +
+     map screen +
+  rewards +
+  inventory item deduction +
+  inventory screen +
+  planet sizes +
+  add music +
+- background (stars)
+- iterate on shop screen
+- inventory item usage
+  minimap + 
+  planet textures (circles) +
+- health/money hud 
+- cat art (maybe?)
+- sound effects (bfxr)

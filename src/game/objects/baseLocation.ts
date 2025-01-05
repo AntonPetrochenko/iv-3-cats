@@ -9,7 +9,9 @@ export function isLocation(a: any): a is BaseLocation {
 export abstract class BaseLocation extends BaseObject {
   abstract locationType: string
 
-  public update() {
+  size = 16;
+
+  public update(dt: number) {
     /** */
   }
 

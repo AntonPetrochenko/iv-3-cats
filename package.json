@@ -14,9 +14,12 @@
   },
   "dependencies": {
     "@pixi/math": "^7.4.2",
+    "@spissvinkel/simplex-noise": "^1.0.1",
     "@types/events": "^3.0.3",
+    "@types/howler": "^2.2.12",
     "@types/lodash": "^4.17.14",
     "events": "^3.3.0",
+    "howler": "^2.2.4",
     "lodash": "^4.17.21",
     "pixi.js": "^8.6.6",
     "regex-to-strings": "^2.1.0"

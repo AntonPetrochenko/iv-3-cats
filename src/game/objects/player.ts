@@ -38,7 +38,7 @@ export class Player extends BaseObject {
       const [hittableMoon, distance] = this.game.findClosestObject<Moon>([this.position.x, this.position.y], (o) => {
         return isMoon(o)
       })
-      if (hittableMoon && distance < 16) {
+      if (hittableMoon && distance < hittableMoon.size) {
         this.invulnerabilitySeconds = 3
         const punchAngle = Math.atan2(this.position.y - hittableMoon.position.y, this.position.x - hittableMoon.position.x)
         
@@ -48,10 +48,25 @@ export class Player extends BaseObject {
         )
       }
     }
+
+    if (this.invulnerabilitySeconds > 0) {
+      if (Math.floor(this.invulnerabilitySeconds*10)%2 > 0.9) {
+        this.drawableContainer.visible = false
+      } else {
+        this.drawableContainer.visible = true
+      }
+    }
   }
 
   constructor(position: Point, localInputs: PausableEventProxy, private game: Game) {
     super(position)
+
+    localInputs.on('button-pressed-b', () => {
+      const [location, distance] = game.findClosestObject<BaseLocation>([this.position.x, this.position.y], (o) => isLocation(o) && o.locationType == 'shop')
+      if (location && distance < location.size + 16) {
+        location.use()
+      }
+    })
 
     localInputs.on('button-pressed-a', () => {
       console.log('A press')
@@ -72,9 +87,6 @@ export class Player extends BaseObject {
         .lineTo(5,-2.5)
         .lineTo(0,0)
         .fill('#ffffff'),
-      new Graphics()
-        .circle(0,0,3)
-        .fill('#ff0000')
     ]
   }
   

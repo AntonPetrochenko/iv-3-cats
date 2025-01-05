@@ -30,9 +30,14 @@ export class StateStackManager {
 
   public popState() {
     const removedState = this.stateStack.pop()
-    removedState?.destructor()
-    removedState?.localInputs.kill()
-    this.stateStack[this.stateStack.length-1].isActive = true
+    if (removedState) {
+      removedState.destructor()
+      removedState.localInputs.kill()
+      this.app.stage.removeChild(removedState.container)
+      this.stateStack[this.stateStack.length-1].isActive = true
+    } else {
+      console.log('Refusing to pop')
+    }
   }
 
 }

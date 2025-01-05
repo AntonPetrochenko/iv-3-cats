@@ -23,10 +23,11 @@ export class QuestManager {
     const itemVarietyCount = 1+Math.floor(Math.random()*globalGameState.maxQuestItems)
     let questMoney = 0;
     for (let i=0; i<itemVarietyCount; i++) {
-      const item = {..._.sample(_.sample(shops)?.items)} as IInventoryItem // thx lodash for types 👍
+      const shop = _.sample(shops)
+      const item = {..._.sample(shop?.items)} as IInventoryItem // thx lodash for types 👍
       const itemQuantity = 1+Math.floor(Math.random()*4)
-      if (item) {
-        questMoney += item.price * item.quantity
+      if (item && shop) {
+        questMoney += item.price * itemQuantity
         if (this.currentQuestItems[item.name]) {
           this.currentQuestItems[item.name] += itemQuantity
         } else {
@@ -35,7 +36,7 @@ export class QuestManager {
       }
     }
     this.currentQuestPlanet = _.sample(this.game.findAll<DropOffLocation>((o) => isLocation(o) && o.locationType == 'dropoff'))
-    globalGameState.money += questMoney
+    globalGameState.money += Math.floor(questMoney * 1.4)
     if (!this.currentQuestItems) {
       alert('Оно сломалось... Жми F5 🤷‍♀️')
     }
@@ -43,6 +44,13 @@ export class QuestManager {
 
   completeQuest() {
     if (!this.game) return
-    //this.currentQuestItems.forEach
+    Object.keys(this.currentQuestItems).forEach( itemName => {
+      const itemQuantity = this.currentQuestItems[itemName]
+      const success = globalGameState.inventory.tryTakeItems(itemName, itemQuantity)
+      if (!success) {
+        globalGameState.health -= 1
+      }
+    })
+    this.newQuest()
   }
 }

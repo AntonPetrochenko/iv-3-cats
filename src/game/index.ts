@@ -1,12 +1,14 @@
 import 'pixi.js/math-extras'
-import { Application, TextureStyle } from "pixi.js";
+import { Application, Assets, TextureStyle } from "pixi.js";
 import { Game } from "./world/game";
 import { StateStackManager } from './stateStackManager';
+import { assetInfo } from './data/assetInfo';
 
 TextureStyle.defaultOptions.scaleMode = 'nearest';
 
 export async function initGame() {
   const app = new Application()
+  await Assets.load(assetInfo)
   await app.init({
     antialias: false,
     width: 320,

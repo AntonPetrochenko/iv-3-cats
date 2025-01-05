@@ -3,4 +3,5 @@ export interface IInventoryItem {
   quantity: number
   name: string
   price: number
+  description: string
 }
